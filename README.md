@@ -1,4 +1,5 @@
 # 前端小测笔记
+> 笔记主要是记录 [zhangxinxu-前端小测答题收集专用](https://github.com/zhangxinxu/quiz) 中所涉及的知识点。
 
 ## CSS部分
 
