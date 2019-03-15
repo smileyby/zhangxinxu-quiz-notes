@@ -6,7 +6,9 @@
 ### CSS基础测试3
 
 > CSS基础测试3-题目 【2019-03-09】
-> ![CSS基础测试3](/resource/css-test3.jpg)
+
+![CSS基础测试3](/resource/css-test3.jpg)
+
 >
 > 解析
 > 1. 使用form元素增强交互体验
