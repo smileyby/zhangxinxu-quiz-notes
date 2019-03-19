@@ -7,7 +7,7 @@
 
 > CSS基础测试1-题目【2019-03-19】
 
-![CSS基础测试3](/resource/css-test3.jpg)
+![CSS基础测试1](/resource/css-test1.jpg)
 
 > 解析
 > 1、 `* {margin: 0; padding: 0;}`不推荐这种写法，会带来不必要的开销，针对有默认值的标签做处理就好
