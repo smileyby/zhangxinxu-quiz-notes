@@ -3,6 +3,121 @@
 
 ## CSS部分
 
+### CSS基础测试1
+
+> CSS基础测试1-题目【2019-03-19】
+
+![CSS基础测试3](/resource/css-test3.jpg)
+
+> 解析
+> 1、 `* {margin: 0; padding: 0;}`不推荐这种写法，会带来不必要的开销，针对有默认值的标签做处理就好
+> 
+> 2、 避免容器高度固定，为后期的扩展做好准备
+> 
+> 3、 使用左右各50%实现，在实际项目中可能会由于某一个内容过多而产生内容堆积在一起的问题（建议左侧安全宽度，右侧自动分配剩余空间）
+> 
+> 4、 关于绝对定位的实现
+
+```css
+dl {
+  border: 1px solid #000;
+  position: relative;
+}
+dd {
+  position: absolute;
+  right: 0;
+  margin: -1.2em 0 0 0;
+}
+```
+> 5、 关于左右浮动的实现（极端情况会出现错位问题）
+
+```css
+dt{
+    float: left;
+    clear: both;
+}
+dd{
+    float: right;
+}
+```
+> 6、 有必要考虑极端情况
+>> 6.1 文字内容很多
+>> 6.2 连续的一串英文
+>> 6.3 没有文字内容
+
+```css
+dd {
+	word-break: break-all;
+}
+dd:empty::before {
+	content: '-';
+	color: #999;
+}
+```
+> 比较好的实现方法如下：
+> 
+```css
+/* 公共部分 */
+dl {
+    line-height: 1.5;
+    margin: 0; padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;    
+}
+dd {
+    word-break: break-all;    
+    text-align: right;
+    margin-left: 0;
+}
+dd:empty::before {
+    content: '-';    
+    color: #999;
+}
+
+/*答案1-dt标签绝对定位*/
+dt { position: absolute; }
+dd {text-align: right; margin-left: 5em; }
+
+/*答案2-Flex布局实现*/
+dl {
+    display: flex;
+    flex-wrap: wrap;
+}
+dt {
+    width: 5em;
+}
+dd {
+    width: calc(100% - 5em);
+    text-align: right;
+}
+
+/*答案3-Grid布局实现*/
+dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 1em;
+}
+dd {
+    text-align: right;
+}
+
+/*答案4-float浮动实现*/
+dt {
+    width: 5em;
+    float: left;    
+}
+dd {
+    text-align: right;
+    overflow: hidden;    
+}
+
+/*答案5-借助原生流体特性实现*/
+dd {
+    margin: -1.5em 0 0 5em;
+    text-align: right;    
+}
+```
+
 ### CSS基础测试3
 
 > CSS基础测试3-题目 【2019-03-09】
