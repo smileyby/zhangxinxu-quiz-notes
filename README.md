@@ -187,4 +187,74 @@ dd {
 
 ## DOM部分
 
+> DOM基础测试29
+
+![DOM基础测试29](/resource/dom-test29.png)
+
+> 学习目标：
+> 1. 了解Element.closest()原生API方法
+> 2. 了解Element.matches()原生API方法
+> 3. 学会自定义扩展需要的Element API
+>
+> 应用场景：在**事件委托**的时候非常有用
+>
+> 答疑：
+> 1. 返回结果，应和原生dom的其他方法返回的结果相符合（返回空数组）
+> 2. 把匹配到的数组进行倒叙 `reverse()`（这个细节做的很好）
+> 3. 还有就是形参名要符合传进来的值相符合（selector）
+
+[各位同学的给出的答案-猛戳](https://github.com/zhangxinxu/quiz/issues/15)
+
+> 下面是我当时给出的答案，看了答疑后，存在的问题和不足：`形参名`，`获取全部返回值的细节处理`，`需要去了解matches`，`代码冗余`，
+
+```javascript
+Element.prototype.myClosest = function myClosest(value){
+  if (value === '') {
+    return null;
+  }
+	
+  if (this.closest) {
+    return this.closest(value);
+  }	
+	
+  let nodeAry = document.querySelectorAll(value),
+      nodeLength = nodeAry.length,
+      lastCloseNode = null;
+  if (nodeLength <= 0) {
+    return null;
+  }
+	
+  if (nodeLength === 1 && nodeAry[0] === this) {
+    return this;
+  }
+	
+  for (let i = 0; i < nodeLength; i += 1) {
+    if (nodeAry[i].contains(this)) {
+      lastCloseNode = nodeAry[i];
+    }
+  }
+  return lastCloseNode;
+};
+Element.prototype.closestAll = function closestAll(value){
+  if (value === '') {
+    return [];
+  }
+	
+  let nodeAry = document.querySelectorAll(value),
+      nodeLength = nodeAry.length,
+      allCloseNode = [];
+  if (nodeLength <= 0) { 
+    return [];
+  }
+
+  for (let i = 0; i < nodeLength; i += 1) {
+    if (nodeAry[i].contains(this) || nodeAry[i] === this) { 
+      allCloseNode.push(nodeAry[i]);
+    }
+  }
+  return allCloseNode;
+};
+```
+
+
 ## JS部分
