@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSS-Test4</title>
+    <style>
+    	html, body, ul, li, p {
+    		margin: 0;
+    		padding: 0;
+    	}
+
+    	html {
+    		font-size: 62.5%;
+    	}
+
+    	li {
+    		list-style: none;
+    	}
+
+        .container {
+        	padding: 1.04167vh;
+            background: #fff;
+        }
+			
+		.messageBox li {
+			position: relative;
+			margin-bottom: 3.2vh;
+		}
+
+		.messageBox li:last-child {
+			margin-bottom: 0;
+		}
+
+		.messageBox li.left {
+			padding-left: 7.5vh;
+		}
+
+		.messageBox li.right {
+			padding-right: 7.5vh;
+		}
+
+		.messageBox li img {
+			width: 6.25vh;
+			height: 6.25vh;
+			border-radius: 50%;
+			position: absolute;
+			top: 0;
+		}
+
+		.messageBox li.left img {
+			left: 0;
+		}
+
+		.messageBox li.right img {
+			right: 0;
+		}
+
+		.messageInfo {
+			font-size: 1.2rem;
+			color: #a1abb9;
+			margin-bottom: 0.4vh;
+		}
+
+		.messageInfo span {
+			margin-right: 1vh;
+		}
+
+		.right {
+			text-align: right;
+		}
+
+		.right .messageInfo::before {
+			content: " "; 
+			display: inline-block; 
+			height: 0; 
+			clear: both; 
+			visibility: hidden;
+		}
+
+		.right .messageInfo span {
+			display: inline-block;
+			float: right;
+		}
+
+		.messageContent {
+			position: relative;
+			display: inline-block;
+			max-width: 31.33333vh;
+			padding: 1.73333vh;
+			border-radius: 0.8vh;
+			font-size: 1.4rem;
+			line-height: 2.66666vh;
+			word-break: break-all;
+		}
+
+		.messageContent::before {
+			content: '';
+		    position: absolute;
+		    top: 0.13333vh;
+		    display: block;
+		    width: 1.2vh;
+		    height: 1vh;
+		    border-radius: 50% 50% 0 0;
+		}
+
+		.left .messageContent::before {
+		    left: -1.2vh;
+		    box-shadow: .5vh 0 0 0 rgb(245, 247, 250);
+		}
+
+		.right .messageContent::before {
+		    right: -1.2vh;
+		    box-shadow: -.5vh 0 0 0 rgb(82, 188, 250);
+		}
+
+		.left .messageContent {
+			color: #000;
+			background-color: #f5f7fa;
+		}
+
+		.right .messageContent {
+			display: inline-block;
+			color: #fff;
+			background-color: #00beff;
+		}
+    </style>
+</head>
+<body>
+<div class="container">
+    <ul class="messageBox">
+        <li class="left">
+            <img src="https://tva4.sinaimg.cn/crop.0.0.750.750.180/75f2b996jw8f6zkdm7qp7j20ku0kudgr.jpg" alt="">
+            <div class="content">
+                <p class="messageInfo">
+                    <span>提案笙</span>
+                    <span>9月30日</span>
+                    <span>21:47</span>
+                </p>
+                <p class="messageContent">什么秘密，我觉得你现在跟我说什么都没有意义</p>
+            </div>
+        </li>
+        <li class="left">
+            <img src="https://tvax3.sinaimg.cn/crop.135.0.810.810.180/006LO43wly8frjay2sypvj30u00mita5.jpg" alt="">
+            <div class="content">
+                <p class="messageInfo">
+                    <span>淮南王玲</span>
+                    <span>10月8日</span>
+                    <span>10:30</span>
+                </p>
+                <p class="messageContent">@蝴蝶蓝 优秀</p>
+            </div>
+        </li>
+        <li class="left">
+            <img src="https://tvax4.sinaimg.cn/crop.0.0.512.512.180/6cd7bd09ly8fsnom1e5wtj20e80e8gm7.jpg" alt="">
+            <div class="content">
+                <p class="messageInfo">
+                    <span>蝴蝶蓝</span>
+                    <span>昨天</span>
+                    <span>22:12</span>
+                </p>
+                <p class="messageContent">值得一听~~</p>
+            </div>
+        </li>
+        <li class="right">
+            <img src="https://tva1.sinaimg.cn/crop.0.0.750.750.180/006bQeGsjw8f1tgl7z9ncj30ku0kuq44.jpg" alt="">
+            <div class="content">
+                <p class="messageInfo">
+                    <span>Y优秀X</span>
+                    <span>刚刚</span>
+                </p>
+                <p class="messageContent">围观戏精现场</p>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
