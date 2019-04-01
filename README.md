@@ -185,6 +185,61 @@ dd {
 </html>
 ```
 
+### CSS基础测试4
+
+> CSS基础测试4-题目 【2019-03-27】
+
+![CSS基础测试3](/resource/css-test4.png)
+
+> 弹性问题
+> 使用`@media`当页面尺寸变化是对页面字体大小和元素尺寸进行微调
+> 以下代码出处：[张鑫旭-基于vw等viewport视区单位配合rem响应式排版和布局](https://www.zhangxinxu.com/wordpress/2016/08/vw-viewport-responsive-layout-typography/)
+
+```css
+html {
+    font-size: 16px;
+}
+
+@media screen and (min-width: 375px) {
+    html {
+        /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */
+        font-size: calc(100% + 2 * (100vw - 375px) / 39);
+        font-size: calc(16px + 2 * (100vw - 375px) / 39);
+    }
+}
+@media screen and (min-width: 414px) {
+    html {
+        /* 414px-1000px每100像素宽字体增加1px(18px-22px) */
+        font-size: calc(112.5% + 4 * (100vw - 414px) / 586);
+        font-size: calc(18px + 4 * (100vw - 414px) / 586);
+    }
+}
+@media screen and (min-width: 600px) {
+    html {
+        /* 600px-1000px每100像素宽字体增加1px(20px-24px) */
+        font-size: calc(125% + 4 * (100vw - 600px) / 400);
+        font-size: calc(20px + 4 * (100vw - 600px) / 400);
+    }
+}
+@media screen and (min-width: 1000px) {
+    html {
+        /* 1000px往后是每100像素0.5px增加 */
+        font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
+        font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
+    }
+}
+```
+
+> 基本要点：
+> 1. 基准字号使用16px，不用其他像素，也不用使用100px
+> 2. media查询和vw技巧实现html基础尺寸动态化（无需js）
+> 3. 要统一的命名空间，类似chat-XXX
+> 4. 遇到不同性质的命名，通常两种方式：1）类名，但是命名上明显区分，例如chat-item__left；2）使用属性选择器，例如data-type="friend"
+> 5. 避免没必要的嵌套，百害无一益（嵌套一般使用在清除默认样式方面）
+> 6. 小尾巴的实现：边框+圆角、box-shadow+圆角、径向渐变
+> 7. 左右对称布局的实现：`direction: rtl`配合CSS逻辑属性
+
+
 ## DOM部分
 
 > DOM基础测试29
