@@ -117,6 +117,24 @@ dd {
     text-align: right;    
 }
 ```
+### CSS基础测试2
+
+> CSS基础测试2-题目 【2019-01-30】
+
+![CSS基础测试2](/resource/css-test2.png)
+
+> 知识点：
+> 绝对定位后，元素会自动块状化
+> `background`属性中center，只需要写一个，另一个会自动补全
+
+> 解析
+> 1、考虑各种字号场景，使用bottom定位，calc()或者margin-bottom微调位置
+> 2、考虑边界场景，例如在浏览器上边缘或者侧面时候
+> 3、延迟显示`transition:visibility .01s .1s`；`pointer-events:none;-ms-pointer-events:none`不响应鼠标行为，避免弹窗遮挡住其他内容,存在兼容性
+> 4、考虑键盘访问，增加`.css-tips:focus`伪类显示，
+> 5、显示提示的时候加一些小微动画也是极好的
+> 6、提示的弹窗不需要定宽高，方便后期扩展
+
 
 ### CSS基础测试3
 
