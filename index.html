@@ -44,11 +44,21 @@
 <body>
 	<!-- css自定义属性 https://www.w3cplus.com/css/everything-you-need-to-know-about-css-variables.html -->
 	<h3 id="percentNum">50%</h3>
-	<div class="slider">
+	<!-- <div class="slider">
 	  <button class="slider-track"></button>
 	  <button class="slider-thumb"></button>
-	</div>
+	</div> -->
 	<script>
+		let sliderDom = document.createElement('div');
+		let slideTrackDom = document.createElement('div');
+		let sliderThumbDom = document.createElement('div');
+		sliderDom.className = 'slider';
+		slideTrackDom.className = 'slider-track';
+		sliderThumbDom.className = 'slider-thumb';
+		sliderDom.append(slideTrackDom);
+		sliderDom.append(sliderThumbDom);
+		document.body.append(sliderDom);
+
 		let slider = document.getElementsByClassName('slider')[0];
 		let sliderThumb = document.getElementsByClassName('slider-thumb')[0];
 		let sliderTrack = document.getElementsByClassName('slider-track')[0];
@@ -72,16 +82,18 @@
 		}
 		function down(e){
 			e = e || window.event;
-			this.left = getCssValue(sliderThumb, 'left');
-			this.startX = e.pageX;
-			this._MOVE = move.bind(this);
-			this._UP = up.bind(this);
-			if (document.addEventListener) {
-				document.addEventListener('mousemove', this._MOVE);
-				document.addEventListener('mouseup', this._UP);
-			} else {
-				document.attachhEvent('onmousemove', this._MOVE);
-				document.attachhEvent('onmouseup', this._UP);
+			if (e.target === sliderThumb) {
+				this.left = getCssValue(sliderThumb, 'left');
+				this.startX = e.pageX;
+				this._MOVE = move.bind(this);
+				this._UP = up.bind(this);
+				if (document.addEventListener) {
+					document.addEventListener('mousemove', this._MOVE);
+					document.addEventListener('mouseup', this._UP);
+				} else {
+					document.attachhEvent('onmousemove', this._MOVE);
+					document.attachhEvent('onmouseup', this._UP);
+				}
 			}
 			
 		}
