@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>滑块</title>
+	<style>
+		.slider {
+		    padding: 5px 0;
+		    position: relative;
+		    margin: 30px 10%;
+		    --percent: 0;
+		}
+		.slider-track {
+		    display: block;
+		    width: 100%; height: 6px;
+		    background-color: lightgray;
+		    border: 0; padding: 0;
+		    outline: 0;
+		}
+		.slider-track::before {
+		    content: '';
+		    display: block;
+		    height: 100%;
+		    background-color: skyblue;
+		    width: calc(1% * var(--percent));
+		}
+		.slider-thumb {
+		    position: absolute;
+		    width: 16px; height: 16px;
+		    border: 0; padding: 0;
+		    background: #fff;
+		    box-shadow: 0 0 0 1px skyblue;
+		    border-radius: 50%;
+		    left: calc(1% * var(--percent)); top: 0;
+		    margin: auto -8px;
+		    outline: 0;	
+		}
+		#percentNum {
+			text-align: center;
+			font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	<!-- css自定义属性 https://www.w3cplus.com/css/everything-you-need-to-know-about-css-variables.html -->
+	<h3 id="percentNum">50%</h3>
+	<div class="slider">
+	  <button class="slider-track"></button>
+	  <button class="slider-thumb"></button>
+	</div>
+	<script>
+		let slider = document.getElementsByClassName('slider')[0];
+		let sliderThumb = document.getElementsByClassName('slider-thumb')[0];
+		let sliderTrack = document.getElementsByClassName('slider-track')[0];
+		let maxX = getCssValue(slider, 'width');
+		setCssValue(slider, '--percent', 50);
+
+		function getCssValue(context, cssName){
+			let value = getComputedStyle(context).getPropertyValue(cssName);
+			if (value.indexOf('px')) {
+				return Number(value.slice(0, -2))
+			} else {
+				return value;
+			}
+			
+		}
+		function setCssValue(context, cssName, cssValue){
+			context.style.setProperty(cssName, cssValue);
+		}
+		function setPercentNum(percent){
+			percentNum.innerHTML = Math.ceil(percent).toFixed(0) + '%';
+		}
+		function down(e){
+			e = e || window.event;
+			this.left = getCssValue(sliderThumb, 'left');
+			this.startX = e.pageX;
+			this._MOVE = move.bind(this);
+			this._UP = up.bind(this);
+			if (document.addEventListener) {
+				document.addEventListener('mousemove', this._MOVE);
+				document.addEventListener('mouseup', this._UP);
+			} else {
+				document.attachhEvent('onmousemove', this._MOVE);
+				document.attachhEvent('onmouseup', this._UP);
+			}
+			
+		}
+		function move(e){
+			e = e || window.event;
+			let startX = this.startX;
+			let left = this.left;
+			let moveX = left + e.pageX - startX;
+			let curX = moveX < 0 ? 0 : (moveX > maxX ? maxX : moveX);
+			let percent = curX / maxX * 100;
+			setCssValue(this, '--percent', percent);
+			setPercentNum(percent);
+		}
+		function up(){
+			if (document.addEventListener) {
+				document.removeEventListener('mousemove', this._MOVE);
+				document.removeEventListener('mouseup', this._UP);
+			} else {
+				document.detachEvent('onmousemove', this._MOVE);
+				document.detachEvent('onmouseup', this._UP);
+			}
+		}
+
+		slider.addEventListener('mousedown', down);
+
+		slider.addEventListener('click', function(e){
+			e = e || window.event;
+			if (e.target === sliderTrack) {
+				let offsetX = e.offsetX;
+				let percent = e.offsetX / maxX * 100;
+				setCssValue(this, '--percent', percent);
+				setPercentNum(percent);
+			}
+		})
+
+	</script>
+</body>
+</html>
