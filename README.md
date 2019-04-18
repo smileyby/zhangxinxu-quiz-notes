@@ -296,7 +296,7 @@ html {
 }
 ```
 
-![DOM基础测试29](/resource/dom-test30_1.png)
+![DOM基础测试30](/resource/dom-test30_1.png)
 
 ```html
 <div class="slider">
@@ -304,6 +304,7 @@ html {
   <button class="slider-thumb"></button>
 </div>
 ```
+![DOM基础测试30](/resource/dom-test30_2.png)
 
 > 学习目标：
 > 1、通过小测找到自身的不足
@@ -321,9 +322,6 @@ html {
 > 10、body直接使用document.body
 > 11、边界判断，如果超出边界设置边界值
 
-
-
-![DOM基础测试29](/resource/dom-test30_2.png)
 
 > DOM基础测试29
 
