@@ -261,6 +261,70 @@ html {
 
 ## DOM部分
 
+> DOM基础测试30
+![DOM基础测试29](/resource/dom-test30_3.png)
+
+```css
+.slider {
+    padding: 5px 0;
+    position: relative;
+    margin: 30px 10%;
+    --percent: 0;
+}
+.slider-track {
+    display: block;
+    width: 100%; height: 6px;
+    background-color: lightgray;
+    border: 0; padding: 0;
+}
+.slider-track::before {
+    content: '';
+    display: block;
+    height: 100%;
+    background-color: skyblue;
+    width: calc(1% * var(--percent));
+}
+.slider-thumb {
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 0; padding: 0;
+    background: #fff;
+    box-shadow: 0 0 0 1px skyblue;
+    border-radius: 50%;
+    left: calc(1% * var(--percent)); top: 0;
+    margin: auto -8px;
+}
+```
+
+![DOM基础测试29](/resource/dom-test30_1.png)
+
+```html
+<div class="slider">
+  <button class="slider-track"></button>
+  <button class="slider-thumb"></button>
+</div>
+```
+
+> 学习目标：
+> 1、通过小测找到自身的不足
+
+> 小测要点
+> 1、 不要使用pageX,当有水平滚动的时候会有bug；
+> 2、点击track定位比较好的方法是使用offsetX，无需计算，其次使用clientX；
+> 3、实际项目开发中，避免直接在DOM元素上使用onxxx方法，因为很容易被重置，建议使用addEventListener；
+> 4、如果你的DOM对象是直接createElement创建，无需使用选择器，直接使用就可以了；
+> 5、误区：过渡封装，过渡重用不一定是好事，会影响代码的可读性。要权衡。适当的冗余来提高代码的可读性
+> 6、宽度一定要在点击或移动事件中实时获取，不然会有定位问题，以确保屏幕尺寸变化時不会产生bug
+> 7、不要使用offsetLeft，定位是有问题的
+> 8、mousedown不应该用在thumb上，也不要非thumb元素都定位
+> 9、判断是否支持touchstart事件最好直接`ontouchstart in document.body`
+> 10、body直接使用document.body
+> 11、边界判断，如果超出边界设置边界值
+
+
+
+![DOM基础测试29](/resource/dom-test30_2.png)
+
 > DOM基础测试29
 
 ![DOM基础测试29](/resource/dom-test29.png)
