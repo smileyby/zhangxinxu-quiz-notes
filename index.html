@@ -2,133 +2,116 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>滑块</title>
-	<style>
-		.slider {
-		    padding: 5px 0;
-		    position: relative;
-		    margin: 30px 10%;
-		    --percent: 0;
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<title>css 测试</title>
+	<style type="text/css">
+		html {
+		    font-size: 16px;
 		}
-		.slider-track {
-		    display: block;
-		    width: 100%; height: 6px;
-		    background-color: lightgray;
-		    border: 0; padding: 0;
-		    outline: 0;
+
+		@media screen and (min-width: 375px) {
+		    html {
+		        /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */
+		        font-size: calc(100% + 2 * (100vw - 375px) / 39);
+		        font-size: calc(16px + 2 * (100vw - 375px) / 39);
+		    }
 		}
-		.slider-track::before {
-		    content: '';
-		    display: block;
-		    height: 100%;
-		    background-color: skyblue;
-		    width: calc(1% * var(--percent));
+		@media screen and (min-width: 414px) {
+		    html {
+		        /* 414px-1000px每100像素宽字体增加1px(18px-22px) */
+		        font-size: calc(112.5% + 4 * (100vw - 414px) / 586);
+		        font-size: calc(18px + 4 * (100vw - 414px) / 586);
+		    }
 		}
-		.slider-thumb {
-		    position: absolute;
-		    width: 16px; height: 16px;
-		    border: 0; padding: 0;
-		    background: #fff;
-		    box-shadow: 0 0 0 1px skyblue;
-		    border-radius: 50%;
-		    left: calc(1% * var(--percent)); top: 0;
-		    margin: auto -8px;
-		    outline: 0;	
+		@media screen and (min-width: 600px) {
+		    html {
+		        /* 600px-1000px每100像素宽字体增加1px(20px-24px) */
+		        font-size: calc(125% + 4 * (100vw - 600px) / 400);
+		        font-size: calc(20px + 4 * (100vw - 600px) / 400);
+		    }
 		}
-		#percentNum {
-			text-align: center;
-			font-size: 14px;
+		@media screen and (min-width: 1000px) {
+		    html {
+		        /* 1000px往后是每100像素0.5px增加 */
+		        font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
+		        font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
+		    }
 		}
+
+		body {
+			margin: 0;
+		}
+
+		:root {
+			--width: calc((100% - (4 * 0.375rem + 10 * 0.125rem)) / 5);
+		}
+
+		#container {
+			font-size: 0;
+			padding: 0.625rem;
+		}
+
+		.box {
+			display: inline-block;
+			width: var(--width);
+			padding-top: var(--width);
+			margin-right: 0.375rem;
+			margin-bottom: 0.375rem;
+			border: 0.125rem solid #fff;
+			cursor: pointer;
+		}
+
+		.box:hover {
+			border-color: #000;
+		}
+
+		.box:nth-child(5n) {
+			margin-right: 0;
+		}
+
+		[color=black] {
+			background: #424242;
+		}
+
+		[color=darkgray] {
+			background: #8c8c8c;
+		}
+
+		[color=orange] {
+			background: #d48b69;
+		}
+
+		[color=yellow] {
+			background: #fecb66;
+		}
+
+		[color=red] {
+			background: #c54941;
+		}
+
+		[color=blue] {
+			background: #591c93;
+		}
+
+
+		[color=grey] {
+			background: #e6e6e6;
+		}
+
 	</style>
 </head>
 <body>
-	<!-- css自定义属性 https://www.w3cplus.com/css/everything-you-need-to-know-about-css-variables.html -->
-	<h3 id="percentNum">50%</h3>
-	<!-- <div class="slider">
-	  <button class="slider-track"></button>
-	  <button class="slider-thumb"></button>
-	</div> -->
-	<script>
-		let sliderDom = document.createElement('div');
-		let slideTrackDom = document.createElement('div');
-		let sliderThumbDom = document.createElement('div');
-		sliderDom.className = 'slider';
-		slideTrackDom.className = 'slider-track';
-		sliderThumbDom.className = 'slider-thumb';
-		sliderDom.append(slideTrackDom);
-		sliderDom.append(sliderThumbDom);
-		document.body.append(sliderDom);
-
-		let slider = document.getElementsByClassName('slider')[0];
-		let sliderThumb = document.getElementsByClassName('slider-thumb')[0];
-		let sliderTrack = document.getElementsByClassName('slider-track')[0];
-		let maxX = getCssValue(slider, 'width');
-		setCssValue(slider, '--percent', 50);
-
-		function getCssValue(context, cssName){
-			let value = getComputedStyle(context).getPropertyValue(cssName);
-			if (value.indexOf('px')) {
-				return Number(value.slice(0, -2))
-			} else {
-				return value;
-			}
-			
+	<div id="container"></div>
+	<script type="text/javascript">
+		var colorAry = ['black', 'darkgray', 'orange', 'yellow', 'red', 'blue', 'grey'];
+		var num = Math.ceil(Math.random() * 20);
+		for (var i = 0; i < num; i += 1) {
+			var item = document.createElement('div');
+			var colorIndex = Math.floor(Math.random() * 6);
+			item.classList = 'box';
+			item.setAttribute('color', colorAry[colorIndex]);
+			container.append(item);
 		}
-		function setCssValue(context, cssName, cssValue){
-			context.style.setProperty(cssName, cssValue);
-		}
-		function setPercentNum(percent){
-			percentNum.innerHTML = Math.ceil(percent).toFixed(0) + '%';
-		}
-		function down(e){
-			e = e || window.event;
-			if (e.target === sliderThumb) {
-				this.left = getCssValue(sliderThumb, 'left');
-				this.startX = e.pageX;
-				this._MOVE = move.bind(this);
-				this._UP = up.bind(this);
-				if (document.addEventListener) {
-					document.addEventListener('mousemove', this._MOVE);
-					document.addEventListener('mouseup', this._UP);
-				} else {
-					document.attachhEvent('onmousemove', this._MOVE);
-					document.attachhEvent('onmouseup', this._UP);
-				}
-			}
-			
-		}
-		function move(e){
-			e = e || window.event;
-			let startX = this.startX;
-			let left = this.left;
-			let moveX = left + e.pageX - startX;
-			let curX = moveX < 0 ? 0 : (moveX > maxX ? maxX : moveX);
-			let percent = curX / maxX * 100;
-			setCssValue(this, '--percent', percent);
-			setPercentNum(percent);
-		}
-		function up(){
-			if (document.addEventListener) {
-				document.removeEventListener('mousemove', this._MOVE);
-				document.removeEventListener('mouseup', this._UP);
-			} else {
-				document.detachEvent('onmousemove', this._MOVE);
-				document.detachEvent('onmouseup', this._UP);
-			}
-		}
-
-		slider.addEventListener('mousedown', down);
-
-		slider.addEventListener('click', function(e){
-			e = e || window.event;
-			if (e.target === sliderTrack) {
-				let offsetX = e.offsetX;
-				let percent = e.offsetX / maxX * 100;
-				setCssValue(this, '--percent', percent);
-				setPercentNum(percent);
-			}
-		})
-
 	</script>
 </body>
 </html>
