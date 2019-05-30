@@ -121,7 +121,7 @@
 			selectBox.style.height = height + 'px';
 			selectBox.style.opacity = opacity;
 		}
-		function resetBoxAttribute(_this){ //=> 重置选区
+		function resetBoxAttribute(_this){ //=> 重置选区以及数据
 			selectBox.style.left = 0;
 			selectBox.style.top = 0;
 			selectBox.style.width = 0;
@@ -137,7 +137,6 @@
 		}
 
 		function setSelectBox(_this){ //=> 选区框选
-			if (!_this.startX) return;
 			let startX = _this.startX;
 			let endX = _this.curX;
 			let startY = _this.startY;
