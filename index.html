@@ -2,115 +2,192 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-	<title>css 测试</title>
-	<style type="text/css">
-		html {
-		    font-size: 16px;
-		}
-
-		@media screen and (min-width: 375px) {
-		    html {
-		        /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */
-		        font-size: calc(100% + 2 * (100vw - 375px) / 39);
-		        font-size: calc(16px + 2 * (100vw - 375px) / 39);
-		    }
-		}
-		@media screen and (min-width: 414px) {
-		    html {
-		        /* 414px-1000px每100像素宽字体增加1px(18px-22px) */
-		        font-size: calc(112.5% + 4 * (100vw - 414px) / 586);
-		        font-size: calc(18px + 4 * (100vw - 414px) / 586);
-		    }
-		}
-		@media screen and (min-width: 600px) {
-		    html {
-		        /* 600px-1000px每100像素宽字体增加1px(20px-24px) */
-		        font-size: calc(125% + 4 * (100vw - 600px) / 400);
-		        font-size: calc(20px + 4 * (100vw - 600px) / 400);
-		    }
-		}
-		@media screen and (min-width: 1000px) {
-		    html {
-		        /* 1000px往后是每100像素0.5px增加 */
-		        font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
-		        font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
-		    }
-		}
-
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+	<title>dom32</title>
+	<style>
 		body {
 			margin: 0;
 		}
 
-		:root {
-			--width: calc((100% - (4 * 0.375rem + 10 * 0.125rem)) / 5);
-		}
-
 		#container {
-			font-size: 0;
-			padding: 0.625rem;
+			position: absolute;
+			left: 30px;
+			top: 40px;
+			border: 1px solid #ff6700;
 		}
-
 		.box {
 			display: inline-block;
-			width: var(--width);
-			padding-top: var(--width);
-			margin-right: 0.375rem;
-			margin-bottom: 0.375rem;
-			border: 0.125rem solid #fff;
-			cursor: pointer;
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background-color: gray;
 		}
 
-		.box:hover {
-			border-color: #000;
+		.box.active{
+			background-color: skyblue;
 		}
 
-		.box:nth-child(5n) {
-			margin-right: 0;
+		.select-box {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 0;
+			height: 0;
+			background-color: rgba(0,0,0,.4);
+			border: 2px dotted #f44;
+			z-index: 10;
+			opacity: 0;
 		}
-
-		[color=black] {
-			background: #424242;
-		}
-
-		[color=darkgray] {
-			background: #8c8c8c;
-		}
-
-		[color=orange] {
-			background: #d48b69;
-		}
-
-		[color=yellow] {
-			background: #fecb66;
-		}
-
-		[color=red] {
-			background: #c54941;
-		}
-
-		[color=blue] {
-			background: #591c93;
-		}
-
-
-		[color=grey] {
-			background: #e6e6e6;
-		}
-
 	</style>
 </head>
 <body>
-	<div id="container"></div>
-	<script type="text/javascript">
-		var colorAry = ['black', 'darkgray', 'orange', 'yellow', 'red', 'blue', 'grey'];
-		var num = Math.ceil(Math.random() * 20);
-		for (var i = 0; i < num; i += 1) {
-			var item = document.createElement('div');
-			var colorIndex = Math.floor(Math.random() * 6);
-			item.classList = 'box';
-			item.setAttribute('color', colorAry[colorIndex]);
-			container.append(item);
+	<div class="select-box"></div>
+	<script>
+		//=> 1
+		let length = 20;
+		for (let i = 0; i < length; i += 1) {
+			let $div = document.createElement('div');
+			$div.className = 'box';
+			document.body.append($div);
+		}
+
+		//=> 2
+		let timer = null;
+		let moveFlag = false;
+		let allBox = document.getElementsByClassName('box');
+		function down(e){
+			e = e || window.event;
+			let target = e.target;
+
+			//=> 记录起始位置
+			let scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+			let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+ 			this.startX = e.clientX + scrollLeft;
+ 			this.startY = e.clientY + scrollTop;
+
+			if (target.className.indexOf('box') > -1) {
+				timer = setTimeout(function(){
+					target.className = 'box active';
+					document.addEventListener('mousemove', move);
+					document.addEventListener('touchmove', move);
+					clearTimeout(timer);
+				}, 350);
+			} else {
+				Array.prototype.slice.call(allBox).forEach(item =>{
+					item.className = 'box';
+				});
+			}
+			document.addEventListener('mouseup', up);
+			document.addEventListener('touchend', up);
+			
+		}
+		function up(){
+			console.log({moveFlag});
+			timer ? clearTimeout(timer) : null;
+			moveFlag ? setSelectBox(this) : null;
+			document.removeEventListener('mouseup', up);
+			document.removeEventListener('touchend', up);
+			document.removeEventListener('mousemove', move);
+			document.removeEventListener('touchmove', move);
+			resetBoxAttribute(this);
+		}
+		document.addEventListener('mousedown', down);
+		document.addEventListener('touchstart', down);
+
+		//=> 3
+		function move(e){
+      moveFlag = true;
+			e = e || window.event;
+			let scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+			let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+			this.curX = e.clientX + scrollLeft;
+			this.curY = e.clientY + scrollTop;
+			this.moveX = this.curX - this.startX;
+			this.moveY = this.curY - this.startY;
+			let width = Math.abs(this.moveX);
+			let height = Math.abs(this.moveY);
+			let left = this.moveX >= 0 ? this.startX : (this.startX + this.moveX);
+			let top = this.moveY >= 0 ? this.startY : (this.startY + this.moveY); 
+			setBoxAttribute(left, top, width, height, 1);
+
+		}
+
+		//=> 阴影选区部分
+		let selectBox = document.getElementsByClassName('select-box')[0];
+		function setBoxAttribute(left, top, width, height, opacity){ //=> 设置选区属性
+			selectBox.style.left = left + 'px';
+			selectBox.style.top = top + 'px';
+			selectBox.style.width = width + 'px';
+			selectBox.style.height = height + 'px';
+			selectBox.style.opacity = opacity;
+		}
+		function resetBoxAttribute(_this){ //=> 重置选区
+			selectBox.style.left = 0;
+			selectBox.style.top = 0;
+			selectBox.style.width = 0;
+			selectBox.style.height = 0;
+			selectBox.style.opacity = 0;
+			moveFlag = false;
+			_this.startX = null;
+			_this.startY = null;
+			_this.curX = null;
+			_this.curY = null;
+			_this.moveX = null;
+			_this.moveY = null;
+		}
+
+		function setSelectBox(_this){ //=> 选区框选
+			if (!_this.startX) return;
+			let startX = _this.startX;
+			let endX = _this.curX;
+			let startY = _this.startY;
+			let endY = _this.curY;
+			Array.prototype.slice.call(allBox).forEach(item =>{
+				let offsetX = item.offsetLeft;
+				let offsetY = item.offsetTop;
+				let a,b,c,d,e,f,XSelected,YSelected;
+				if (startX >= endX) {
+					[startX, endX] = [endX, startX]
+				} 
+				if (startY >= endY) {
+					[startY, endY] = [endY, startY]
+				} 
+
+				a = startX >= offsetX && startX <= offsetX + 100;
+				if (a) {
+					XSelected = true;
+				} else {
+					b = endX >= offsetX && endX <= offsetX + 100;
+					if (b) {
+						XSelected = true;
+					} else {
+						c = offsetX >= startX && offsetX + 100 <= endX;
+						if (c) {
+							XSelected = true;
+						}
+					}
+				}
+
+				d = startY >= offsetY && startY <= offsetY + 100;
+				if (d) {
+					YSelected = true;
+				} else {
+					e = endY >= offsetY && endY <= offsetY + 100;
+					if (e) {
+						YSelected = true;
+					} else {
+						f = offsetY >= startY && offsetY + 100 <= endY;
+						if (f) {
+							YSelected = true;
+						}
+					}
+				}
+
+				if (XSelected && YSelected) {
+					item.className = 'box active';
+				}
+			});
+			moveFlag = false;
 		}
 	</script>
 </body>
