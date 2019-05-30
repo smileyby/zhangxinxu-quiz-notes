@@ -117,6 +117,24 @@ dd {
     text-align: right;    
 }
 ```
+### CSS基础测试2
+
+> CSS基础测试2-题目 【2019-01-30】
+
+![CSS基础测试2](/resource/css-test2.png)
+
+> 知识点：
+> 绝对定位后，元素会自动块状化
+> `background`属性中center，只需要写一个，另一个会自动补全
+
+> 解析
+> 1、考虑各种字号场景，使用bottom定位，calc()或者margin-bottom微调位置
+> 2、考虑边界场景，例如在浏览器上边缘或者侧面时候
+> 3、延迟显示`transition:visibility .01s .1s`；`pointer-events:none;-ms-pointer-events:none`不响应鼠标行为，避免弹窗遮挡住其他内容,存在兼容性
+> 4、考虑键盘访问，增加`.css-tips:focus`伪类显示，
+> 5、显示提示的时候加一些小微动画也是极好的
+> 6、提示的弹窗不需要定宽高，方便后期扩展
+
 
 ### CSS基础测试3
 
@@ -185,7 +203,125 @@ dd {
 </html>
 ```
 
+### CSS基础测试4
+
+> CSS基础测试4-题目 【2019-03-27】
+
+![CSS基础测试3](/resource/css-test4.png)
+
+> 弹性问题
+> 使用`@media`当页面尺寸变化是对页面字体大小和元素尺寸进行微调
+> 以下代码出处：[张鑫旭-基于vw等viewport视区单位配合rem响应式排版和布局](https://www.zhangxinxu.com/wordpress/2016/08/vw-viewport-responsive-layout-typography/)
+
+```css
+html {
+    font-size: 16px;
+}
+
+@media screen and (min-width: 375px) {
+    html {
+        /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */
+        font-size: calc(100% + 2 * (100vw - 375px) / 39);
+        font-size: calc(16px + 2 * (100vw - 375px) / 39);
+    }
+}
+@media screen and (min-width: 414px) {
+    html {
+        /* 414px-1000px每100像素宽字体增加1px(18px-22px) */
+        font-size: calc(112.5% + 4 * (100vw - 414px) / 586);
+        font-size: calc(18px + 4 * (100vw - 414px) / 586);
+    }
+}
+@media screen and (min-width: 600px) {
+    html {
+        /* 600px-1000px每100像素宽字体增加1px(20px-24px) */
+        font-size: calc(125% + 4 * (100vw - 600px) / 400);
+        font-size: calc(20px + 4 * (100vw - 600px) / 400);
+    }
+}
+@media screen and (min-width: 1000px) {
+    html {
+        /* 1000px往后是每100像素0.5px增加 */
+        font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
+        font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
+    }
+}
+```
+
+> 基本要点：
+> 1. 基准字号使用16px，不用其他像素，也不用使用100px
+> 2. media查询和vw技巧实现html基础尺寸动态化（无需js）
+> 3. 要统一的命名空间，类似chat-XXX
+> 4. 遇到不同性质的命名，通常两种方式：1）类名，但是命名上明显区分，例如chat-item__left；2）使用属性选择器，例如data-type="friend"
+> 5. 避免没必要的嵌套，百害无一益（嵌套一般使用在清除默认样式方面）
+> 6. 小尾巴的实现：边框+圆角、box-shadow+圆角、径向渐变
+> 7. 左右对称布局的实现：`direction: rtl`配合CSS逻辑属性
+> 8. 不推荐使用dl标签，可以给每个列表增加一个tabindex=0
+
+
 ## DOM部分
+
+> DOM基础测试30
+![DOM基础测试29](/resource/dom-test30_3.png)
+
+```css
+.slider {
+    padding: 5px 0;
+    position: relative;
+    margin: 30px 10%;
+    --percent: 0;
+}
+.slider-track {
+    display: block;
+    width: 100%; height: 6px;
+    background-color: lightgray;
+    border: 0; padding: 0;
+}
+.slider-track::before {
+    content: '';
+    display: block;
+    height: 100%;
+    background-color: skyblue;
+    width: calc(1% * var(--percent));
+}
+.slider-thumb {
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 0; padding: 0;
+    background: #fff;
+    box-shadow: 0 0 0 1px skyblue;
+    border-radius: 50%;
+    left: calc(1% * var(--percent)); top: 0;
+    margin: auto -8px;
+}
+```
+
+![DOM基础测试30](/resource/dom-test30_1.png)
+
+```html
+<div class="slider">
+  <button class="slider-track"></button>
+  <button class="slider-thumb"></button>
+</div>
+```
+![DOM基础测试30](/resource/dom-test30_2.png)
+
+> 学习目标：
+> 1、通过小测找到自身的不足
+
+> 小测要点
+> 1、 不要使用pageX,当有水平滚动的时候会有bug；
+> 2、点击track定位比较好的方法是使用offsetX，无需计算，其次使用clientX；
+> 3、实际项目开发中，避免直接在DOM元素上使用onxxx方法，因为很容易被重置，建议使用addEventListener；
+> 4、如果你的DOM对象是直接createElement创建，无需使用选择器，直接使用就可以了；
+> 5、误区：过渡封装，过渡重用不一定是好事，会影响代码的可读性。要权衡。适当的冗余来提高代码的可读性
+> 6、宽度一定要在点击或移动事件中实时获取，不然会有定位问题，以确保屏幕尺寸变化時不会产生bug
+> 7、不要使用offsetLeft，定位是有问题的
+> 8、mousedown不应该用在thumb上，也不要非thumb元素都定位
+> 9、判断是否支持touchstart事件最好直接`ontouchstart in document.body`
+> 10、body直接使用document.body
+> 11、边界判断，如果超出边界设置边界值
+
 
 > DOM基础测试29
 
