@@ -53,3 +53,21 @@ function format(size, fixedNum) {
 console.log(format(fileSize, 2));
 ```
 
+> JS基础测试36
+
+```
+1. Ajax上传图片功能，假设图片对象名称是file，请根据提示补全下面代码
+var xhr = new XMLHttpRequset();
+// 请补全进度/成功/失败这三个回调处理方法（回调函数里面逻辑不需要写）
+
+xhr.open('POST', '/upload', true);
+xhr.send();
+2.用户往往一次上传多张图，假设此时<input type="file" multiple>空间获取的文件序列是files，请过滤尺寸大于1M的file文件
+3.假设files中是所有图片对象会同时进行ajax上传，由于所有上传都是异步的，请问，你该如何判断所有图片上传结束（上传失败也认为结束）
+```
+
+```javascript
+var xhr = new XMLHttprequest();
+
+```
+
