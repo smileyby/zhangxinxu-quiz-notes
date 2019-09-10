@@ -19,14 +19,17 @@ var fileSize = 2837475;
 // 1
 // 正则表达式一般趋向于最大长度匹配，也就是所谓的贪婪匹配
 // 开启非贪婪匹配：在正则表达式后面加个 `?`
+// 适用于：格式化银行卡号/电话号码等
 bankCode.match(/\d{3,4}/g).join(' ');
 
 // 2
 // toLocalString方法默认只保留小数点后三位（且四舍五入）
 // Intl（ECMAScript国际化API的一个命名空间，它提供了精确的字符串对比/数字格式化/日期时间格式化）[Intl](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+// 适用于：将指定字符串按照规定格式格式化
 Number(numberCode).toLocaleString();
 
 // 3
+// 适用于：计算文件大小
 var fileSize = 2837475;
 function format(size, fixedNum) {
   var kb = 1024;
